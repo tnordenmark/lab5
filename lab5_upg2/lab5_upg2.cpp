@@ -3,26 +3,22 @@
 // Thomas Nordenmark 2013-12-12
 // Ver 0.1
 //------------------------------------------------------------------------------
-#include <cstdlib> // srand, rand
+#include <random> // default_random_engine
+#include <functional> // bind
 #include <iostream> // cin, cout
 using namespace std;
-
 
 // ======================
 // Funktionsdeklarationer
 // ======================
-int slumpaTal(int max); // Funktion för att generera slumptal mellan 1 och max
 void bubbleSort(int arr[], int max); // Bubble sort
 int binSearch(int arr[], int key, int max);
-
 
 // ============
 // Huvudprogram
 // ============
 int main()
 {
-    srand(time(NULL)); // Initiera slumpgeneratorn
-
     int max; // Arraystorlek
     int range; // Maxtalet för slumpgeneratorn
 
@@ -32,6 +28,12 @@ int main()
     cout << "Mata in maxtalet för slumpgeneratorn: ";
     cin >> range;
 
+    // Initiera slumpdistributörsobjektet generator
+    default_random_engine generator(static_cast<unsigned>(time(0)));
+    uniform_int_distribution<int> random(1, range); // Slumpa i itervallet 1-6
+    // Slå ihop slumpgeneratorn till en funktion för enklare användning
+    auto slumpaTal = bind(random, generator);
+
     int arr[max]; // Arrayen
     int i; // Iterator för loopar
     int key; // Det eftersökta talet
@@ -40,7 +42,7 @@ int main()
     cout << endl << "Arrayen osorterad:" << endl;
     for(i = 0; i < max; i++)
     {
-        arr[i] = slumpaTal(range);
+        arr[i] = slumpaTal();
         cout << "a[" << i <<"] = " << arr[i] << endl;
     }
 
@@ -80,12 +82,6 @@ int main()
 // =====================
 // Funktionsdefinitioner
 // =====================
-
-// Slumpa tal mellan 1 och max
-int slumpaTal(int max)
-{
-    return rand() % max + 1;
-}
 
 // Bubble sort
 void bubbleSort(int arr[], int max)

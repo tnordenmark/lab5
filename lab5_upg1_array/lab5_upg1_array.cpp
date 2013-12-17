@@ -4,8 +4,9 @@
 // Ver 0.1
 //------------------------------------------------------------------------------
 #include <iostream> // cin, cout
-#include <cstdlib> // srand, rand
+#include <random> // default_random_engine
 #include <iomanip> // setw, setprecision
+#include <functional> // bind
 using namespace std;
 
 // =========================
@@ -17,7 +18,6 @@ const int FREK=100; // Antal platser i frekvensarray samt slumpgeneratorns max
 // ======================
 // Funktionsdeklarationer
 // ======================
-int slumpaTal(int max); // Funktion för att generera slumptal mellan 1 och max
 void bubbleSort(int arr[]); // Bubble sort
 
 // ============
@@ -25,7 +25,11 @@ void bubbleSort(int arr[]); // Bubble sort
 // ============
 int main()
 {
-    srand(time(NULL)); // Initiera slumpgeneratorn
+    // Initiera slumpdistributörsobjektet generator
+    default_random_engine generator(static_cast<unsigned>(time(0)));
+    uniform_int_distribution<int> random(1, FREK); // Slumpa i itervallet 1-6
+    // Slå ihop slumpgeneratorn till en funktion för enklare användning
+    auto slumpaTal = bind(random, generator);
 
     int arr[MAX]; // Array med MAX antal platser
     // Iteratorer för loopar
@@ -165,12 +169,6 @@ int main()
 // =====================
 // Funktionsdefinitioner
 // =====================
-
-// Funktion för att generera slumptal
-int slumpaTal(int max)
-{
-    return rand() % max + 1;
-}
 
 // Bubble sort
 void bubbleSort(int arr[])

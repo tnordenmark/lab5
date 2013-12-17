@@ -4,10 +4,11 @@
 // Ver 0.1
 //------------------------------------------------------------------------------
 #include <iostream> // cin, cout
-#include <cstdlib> // srand, rand
+#include <random> // default_random_engine
 #include <iomanip> // setw, setprecision
 #include <vector> // vector
 #include <algorithm> // generate, sort, count etc
+#include <functional> // bind
 using namespace std;
 
 // =========================
@@ -16,18 +17,16 @@ using namespace std;
 const int MAX=600; // Max platser i vectorn
 const int FREK=100; // Antal platser i frekvensvector samt slumpgeneratorns max
 
-// ======================
-// Funktionsdeklarationer
-// ======================
-int slumpaTal() {return rand() % FREK + 1;} // Funktion för att generera slumptal mellan 1 och max
-
-
 // ============
 // Huvudprogram
 // ============
 int main()
 {
-    srand(time(NULL)); // Initiera slumpgeneratorn
+    // Initiera slumpdistributörsobjektet generator
+    default_random_engine generator(static_cast<unsigned>(time(0)));
+    uniform_int_distribution<int> random(1, FREK); // Slumpa i itervallet 1-100
+    // Slå ihop slumpgeneratorn till en funktion för enklare användning
+    auto slumpaTal = bind(random, generator);
 
     // Iteratorer för loopar
     int i;
@@ -90,7 +89,7 @@ int main()
         }
     }
     // Skriv ut resultat
-    cout << "Tecknet med flest förekomster är: " << maxindex << " och förekommer " << max << " gånger." << endl << endl;
+    cout << "Talet med flest förekomster är: " << maxindex << " och förekommer " << max << " gånger." << endl << endl;
 
 
     // Sortera vectorn med <algorithm>
