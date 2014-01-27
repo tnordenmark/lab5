@@ -6,25 +6,29 @@
 #include <random> // default_random_engine
 #include <functional> // bind
 #include <iostream> // cin, cout
+#include <ctime> // time
 using namespace std;
 
 // ======================
 // Funktionsdeklarationer
 // ======================
-void bubbleSort(int arr[], int max); // Bubble sort
-int binSearch(int arr[], int key, int max);
+const int MAX = 10;
+
+// ======================
+// Funktionsdeklarationer
+// ======================
+void bubbleSort(int arr[], int MAX); // Bubble sort
+int binSearch(int arr[], int key, int MAX);
 
 // ============
 // Huvudprogram
 // ============
 int main()
 {
-    int max; // Arraystorlek
+    //int max; // Arraystorlek
     int range; // Maxtalet för slumpgeneratorn
 
-    // Fråga efter och läs in arrayens storlek och maxtalet för slumpgeneratorn
-    cout << "Mata in önskad arraystorlek: ";
-    cin >> max;
+    // Fråga efter och läs in maxtalet för slumpgeneratorn
     cout << "Mata in maxtalet för slumpgeneratorn: ";
     cin >> range;
 
@@ -34,13 +38,13 @@ int main()
     // Slå ihop slumpgeneratorn till en funktion för enklare användning
     auto slumpaTal = bind(random, generator);
 
-    int arr[max]; // Arrayen
+    int arr[MAX]; // Arrayen
     int i; // Iterator för loopar
     int key; // Det eftersökta talet
     int index; // Det eftersökta talets plats i arrayen
 
     cout << endl << "Arrayen osorterad:" << endl;
-    for(i = 0; i < max; i++)
+    for(i = 0; i < MAX; i++)
     {
         arr[i] = slumpaTal();
         cout << "a[" << i <<"] = " << arr[i] << endl;
@@ -48,13 +52,13 @@ int main()
 
 
     // Sortera arrayen, en förutsättning för binärsökning
-    bubbleSort(arr, max);
+    bubbleSort(arr, MAX);
 
 
     // Skriv ut arrayen efter sortering
     cout << endl << "Arrayen sorterad i stigande ordning:" << endl;
 
-    for(i = 0; i < max; i++)
+    for(i = 0; i < MAX; i++)
     {
         cout << "a[" << i <<"] = " << arr[i] << endl;
     }
@@ -65,7 +69,7 @@ int main()
     cin >> key;
 
     // Anropa binärsökningsfunktionen med array, sökord och storlek som parametrar
-    index = binSearch(arr, key, max);
+    index = binSearch(arr, key, MAX);
 
 
     // Presentera resultatet av binärsökningen
