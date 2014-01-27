@@ -1,0 +1,8 @@
+Ja se på tusan. När jag kompilerade med GCC och la till -W -Wall -Wextra -pedantic -std=c++11
+så dyker kompileringsfelet upp. Variabla arraylängder är tydligen en extension till GCC som
+ska dyka upp i det nya C++14. Nu har jag byggt mitt program med hänsyn till GCC så den snabba
+lösningen är att helt enkelt deklarera en konstant array och ta bort användarinmatningen. Det
+var ju inget krav för den här uppgiften att användaren skulle bestämma storleken utan endast
+ett eget tillägg. Nu bör koden kompilera.
+
+Något fel om time och time.h eller ctime lyckas jag dock inte få fram oavsett flaggor.
